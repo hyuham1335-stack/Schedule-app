@@ -2,12 +2,15 @@ package com.scheduleapp.service;
 
 import com.scheduleapp.dto.CreateScheduleRequest;
 import com.scheduleapp.dto.CreateScheduleResponse;
+import com.scheduleapp.dto.FindOneScheduleResponse;
 import com.scheduleapp.entity.Schedule;
 import com.scheduleapp.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +18,7 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
 
+    // 일정 생성
     @Transactional
     public CreateScheduleResponse createSchedule(CreateScheduleRequest request) {
         Schedule schedule = new Schedule(
@@ -33,5 +37,47 @@ public class ScheduleService {
                 createdSchedule.getCreatedDate(),
                 createdSchedule.getModifiedDate()
         );
+    }
+
+    // 선택 일정 조회
+    @Transactional(readOnly = true)
+    public FindOneScheduleResponse findOneSchedule(Long scheduleId) {
+        Schedule findSchedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new IllegalStateException("Schedule not found with id " + scheduleId)
+        );
+
+        return new FindOneScheduleResponse(
+                findSchedule.getId(),
+                findSchedule.getTitle(),
+                findSchedule.getContents(),
+                findSchedule.getWriterName(),
+                findSchedule.getCreatedDate(),
+                findSchedule.getModifiedDate()
+        );
+    }
+
+    // 전체 일정 조회
+    @Transactional(readOnly = true)
+    public List<FindOneScheduleResponse> findAllSchedule(String writerName) {
+
+        List<Schedule> findSchedules = null;
+
+        if(writerName == null){
+            findSchedules = scheduleRepository.findAll();
+        } else {
+            findSchedules = scheduleRepository.findByWriterName(writerName);
+        }
+
+        findSchedules.sort(Comparator.comparing(Schedule::getModifiedDate).reversed());
+
+        return findSchedules.stream()
+                .map(schedule -> new FindOneScheduleResponse(
+                                schedule.getId(),
+                                schedule.getTitle(),
+                                schedule.getContents(),
+                                schedule.getWriterName(),
+                                schedule.getCreatedDate(),
+                                schedule.getModifiedDate()
+                )).toList();
     }
 }

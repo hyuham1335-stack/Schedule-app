@@ -1,11 +1,10 @@
 package com.scheduleapp.service;
 
-import com.scheduleapp.dto.CreateScheduleRequest;
-import com.scheduleapp.dto.CreateScheduleResponse;
-import com.scheduleapp.dto.FindOneScheduleResponse;
+import com.scheduleapp.dto.*;
 import com.scheduleapp.entity.Schedule;
 import com.scheduleapp.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,5 +78,38 @@ public class ScheduleService {
                                 schedule.getCreatedDate(),
                                 schedule.getModifiedDate()
                 )).toList();
+    }
+
+    // 선택한 일정 수정
+    @Transactional
+    public UpdateScheduleResponse update(Long scheduleId, UpdateScheduleRequest request) {
+        Schedule findSchedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new IllegalStateException("Schedule not found with id " + scheduleId)
+        );
+
+        if(!request.getPassword().equals(findSchedule.getPassword())){
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        }
+
+        findSchedule.updateSchedule(request.getTitle(), request.getWriterName());
+
+        return new UpdateScheduleResponse(
+                findSchedule.getId(),
+                findSchedule.getTitle(),
+                findSchedule.getContents(),
+                findSchedule.getWriterName()
+        );
+    }
+
+    // 선택한 일정 삭제
+    @Transactional
+    public void delete(Long scheduleId, DeleteScheduleRequest request) {
+        boolean existence = scheduleRepository.existsById(scheduleId);
+
+        if(!existence){
+            throw new IllegalStateException("Schedule not found with id " + scheduleId);
+        }
+
+        scheduleRepository.deleteById(scheduleId);
     }
 }

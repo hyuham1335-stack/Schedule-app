@@ -1,8 +1,6 @@
 package com.scheduleapp.controller;
 
-import com.scheduleapp.dto.CreateScheduleRequest;
-import com.scheduleapp.dto.CreateScheduleResponse;
-import com.scheduleapp.dto.FindOneScheduleResponse;
+import com.scheduleapp.dto.*;
 import com.scheduleapp.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
@@ -31,6 +29,24 @@ public class ScheduleController {
     @GetMapping("/schedules")
     public ResponseEntity<List<FindOneScheduleResponse>> getAllSchedules(
             @RequestParam(required = false) String writerName){
+
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.findAllSchedule(writerName));
+    }
+
+    @PatchMapping("/schedules/{scheduleId}")
+    public ResponseEntity<UpdateScheduleResponse> updateSchedule(
+            @PathVariable Long scheduleId,
+            @RequestBody UpdateScheduleRequest request){
+
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.update(scheduleId, request));
+    }
+
+    @DeleteMapping("/schedules/{scheduleId}")
+    public ResponseEntity<Void> deleteSchedule(
+            @PathVariable Long scheduleId,
+            @RequestBody DeleteScheduleRequest request){
+
+        scheduleService.delete(scheduleId, request);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

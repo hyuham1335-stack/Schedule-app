@@ -1,0 +1,32 @@
+package com.scheduleapp.entity;
+
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@Entity
+@Table(name = "schedules")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Schedule extends BaseEntity{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String title;
+    private String contents;
+    private String writerName;
+    private String password;
+
+    public Schedule(String title, String contents, String writerName, String password) {
+        this.title = title;
+        this.contents = contents;
+        this.writerName = writerName;
+        this.password = password;
+    }
+
+    public void updateSchedule(){
+
+    }
+}

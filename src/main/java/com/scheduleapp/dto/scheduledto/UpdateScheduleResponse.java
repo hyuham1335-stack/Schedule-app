@@ -1,8 +1,6 @@
-package com.scheduleapp.dto;
+package com.scheduleapp.dto.scheduledto;
 
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Getter
 public class UpdateScheduleResponse {

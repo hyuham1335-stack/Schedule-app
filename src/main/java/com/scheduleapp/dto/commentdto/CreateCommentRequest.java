@@ -1,11 +1,10 @@
-package com.scheduleapp.dto;
+package com.scheduleapp.dto.commentdto;
 
 import lombok.Getter;
 
 @Getter
-public class CreateScheduleRequest {
+public class CreateCommentRequest {
 
-    private String title;
     private String contents;
     private String writerName;
     private String password;

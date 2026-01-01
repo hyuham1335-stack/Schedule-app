@@ -1,9 +1,8 @@
 package com.scheduleapp.controller;
 
-import com.scheduleapp.dto.*;
+import com.scheduleapp.dto.scheduledto.*;
 import com.scheduleapp.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

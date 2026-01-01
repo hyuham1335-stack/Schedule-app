@@ -34,6 +34,7 @@ public class CommentService {
                 findSchedule
         );
 
+        findSchedule.addComment(comment);
         Comment savedComment = commentRepository.save(comment);
 
         return new CreateCommentResponse(

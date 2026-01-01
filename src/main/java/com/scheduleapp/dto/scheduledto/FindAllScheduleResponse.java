@@ -1,6 +1,5 @@
 package com.scheduleapp.dto.scheduledto;
 
-import com.scheduleapp.dto.commentdto.GetCommentResponse;
 import com.scheduleapp.entity.Comment;
 import lombok.Getter;
 
@@ -8,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-public class FindOneScheduleResponse {
+public class FindAllScheduleResponse {
 
     private final Long id;
     private final String title;
@@ -16,15 +15,14 @@ public class FindOneScheduleResponse {
     private final String writerName;
     private final LocalDateTime createdDate;
     private final LocalDateTime modifiedDate;
-    private final List<GetCommentResponse> comments;
 
-    public FindOneScheduleResponse(Long id, String title, String content, String writerName, LocalDateTime createdDate, LocalDateTime modifiedDate, List<GetCommentResponse> comments) {
+
+    public FindAllScheduleResponse(Long id, String title, String content, String writerName, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.writerName = writerName;
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
-        this.comments = comments;
     }
 }

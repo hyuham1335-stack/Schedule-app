@@ -1,5 +1,6 @@
 package com.scheduleapp.service;
 
+import com.scheduleapp.dto.commentdto.GetCommentResponse;
 import com.scheduleapp.dto.scheduledto.*;
 import com.scheduleapp.entity.Schedule;
 import com.scheduleapp.repository.ScheduleRepository;
@@ -44,19 +45,32 @@ public class ScheduleService {
                 () -> new IllegalStateException("Schedule not found with id " + scheduleId)
         );
 
+        List<GetCommentResponse> comments = findSchedule.getComments().stream()
+                .map(
+                        comment -> new GetCommentResponse(
+                                comment.getId(),
+                                comment.getContents(),
+                                comment.getWriterName(),
+                                comment.getCreatedDate(),
+                                comment.getModifiedDate()
+                        )
+                ).toList();
+
+
         return new FindOneScheduleResponse(
                 findSchedule.getId(),
                 findSchedule.getTitle(),
                 findSchedule.getContents(),
                 findSchedule.getWriterName(),
                 findSchedule.getCreatedDate(),
-                findSchedule.getModifiedDate()
+                findSchedule.getModifiedDate(),
+                comments
         );
     }
 
     // 전체 일정 조회
     @Transactional(readOnly = true)
-    public List<FindOneScheduleResponse> findAllSchedule(String writerName) {
+    public List<FindAllScheduleResponse> findAllSchedule(String writerName) {
 
         List<Schedule> findSchedules = null;
 
@@ -69,7 +83,7 @@ public class ScheduleService {
         findSchedules.sort(Comparator.comparing(Schedule::getModifiedDate).reversed());
 
         return findSchedules.stream()
-                .map(schedule -> new FindOneScheduleResponse(
+                .map(schedule -> new FindAllScheduleResponse(
                                 schedule.getId(),
                                 schedule.getTitle(),
                                 schedule.getContents(),

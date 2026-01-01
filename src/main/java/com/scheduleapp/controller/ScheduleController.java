@@ -26,7 +26,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/schedules")
-    public ResponseEntity<List<FindOneScheduleResponse>> getAllSchedules(
+    public ResponseEntity<List<FindAllScheduleResponse>> getAllSchedules(
             @RequestParam(required = false) String writerName){
 
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.findAllSchedule(writerName));

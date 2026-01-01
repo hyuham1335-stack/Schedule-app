@@ -17,6 +17,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ScheduleRepository scheduleRepository;
 
+    // 댓글 생성
     @Transactional
     public CreateCommentResponse createComment(Long scheduleId, CreateCommentRequest request) {
         Schedule findSchedule = scheduleRepository.findById(scheduleId).orElseThrow(

@@ -1,5 +1,6 @@
 package com.scheduleapp.dto.commentdto;
 
+import jakarta.persistence.Column;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

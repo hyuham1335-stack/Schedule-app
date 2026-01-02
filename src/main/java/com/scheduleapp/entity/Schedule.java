@@ -26,7 +26,7 @@ public class Schedule extends BaseEntity{
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private final List<Comment> comments = new ArrayList<>();
 
     public Schedule(String title, String contents, String writerName, String password) {

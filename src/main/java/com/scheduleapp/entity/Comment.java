@@ -22,7 +22,7 @@ public class Comment extends BaseEntity {
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "schedule_comment", nullable = false)
+    @JoinColumn(name = "schedule_id", nullable = false)
     private Schedule schedule;
 
     public Comment(String contents, String writerName, String password, Schedule schedule) {

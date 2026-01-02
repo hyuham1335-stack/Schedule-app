@@ -28,3 +28,8 @@ https://hhw1.tistory.com/30
 + ERD
 
  https://www.erdcloud.com/d/jTN2AR66FLLyronkN
+---
++ Postman 실행 결과
+
+  https://hhw1.tistory.com/31
+ 
